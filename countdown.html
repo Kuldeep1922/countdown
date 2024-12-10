@@ -1,0 +1,236 @@
+<!-- https://github.com/amit928/ -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Timer Kuldeep</title>
+    <style>
+      body {
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+        margin: 10px;
+      }
+      .a {
+        background-image: linear-gradient(to right bottom, #f3b9a5, #e8a3c0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 95vh;
+
+        padding: 10px;
+      }
+      .form {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .input-div {
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .input-div input {
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(
+          to left bottom,
+          rgb(141, 141, 46),
+          rgb(74, 126, 223)
+        );
+      }
+      .form button {
+        background-color: rgb(44, 43, 43);
+        color: white;
+        width: 100px;
+        border: none;
+        padding: 10px;
+        border-radius: 10px;
+      }
+      .timer {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+      .box {
+        padding: 10px;
+      }
+      .blackbox {
+        background-color: rgb(34, 30, 30);
+        height: 100px;
+        width: 100px;
+        border-radius: 10px;
+        color: white;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+      }
+      p {
+        margin: 0;
+        padding: 0%;
+        font-weight: 100;
+        text-align: center;
+      }
+      @media only screen and (max-width: 768px) {
+        .timer {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+          margin-top: 20px;
+        }
+        .box {
+          padding: 2px;
+        }
+        .box p {
+          font-size: 10px;
+          font-weight: 500;
+          margin-bottom: 10px;
+        }
+        .blackbox {
+          background-color: rgb(34, 30, 30);
+          height: 60px;
+          width: 70px;
+          border-radius: 10px;
+          color: white;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 40px;
+        }
+        .kuldeep {
+          background: #46cf22;
+          background: linear-gradient(to right, #46cf22 0%, #ce00cf 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+      }
+      /* General Styles */
+      input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+
+      /* Mobile styles */
+      @media only screen and (max-width: 768px) {
+        input[type="date"] {
+          padding: 8px;
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="a">
+      <h1 class="kuldeep">Kuldeep Sahoo</h1>
+      <div class="container">
+        <h1>Countdown Timer</h1>
+        <h3>Enter end date and time</h3>
+
+        <div class="form">
+          <div class="input-div">
+            <label for="">Date: </label>
+            <input type="date" name="" id="date" placeholder="Enter Date" />
+          </div>
+
+          <div class="input-div">
+            <label for="">Time: </label>
+            <input type="time" name="" id="time" />
+          </div>
+
+          <button onclick="startTimer()">Start timer</button>
+        </div>
+
+        <h2 id="expiremessage"></h2>
+
+        <div class="timer">
+          <div class="box">
+            <p>DAYS</p>
+            <div class="blackbox" id="day"></div>
+          </div>
+          <div class="box">
+            <p>HOURS</p>
+            <div class="blackbox" id="hour"></div>
+          </div>
+          <div class="box">
+            <p>MINUTES</p>
+            <div class="blackbox" id="minute"></div>
+          </div>
+          <div class="box">
+            <p>SECONDS</p>
+            <div class="second blackbox" id="second"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    var endtime, days, hours, minutes, seconds;
+    function startTimer() {
+      const inputDate = document.getElementById("date").value;
+      const inputTime = document.getElementById("time").value;
+
+      if (!inputDate || !inputTime) {
+        alert("Please fill both the fields");
+        return;
+      }
+
+      var datestring = inputDate + " " + inputTime;
+
+      endtime = new Date(datestring).getTime();
+      console.log(endtime);
+      setInterval(calculate, 1000);
+    }
+    function calculate() {
+      var difference = endtime - Date.now();
+
+      if (difference < 0) {
+        document.getElementById(
+          "expiremessage"
+        ).innerHTML = `EXPIRED<br><img src="https://image.pngaaa.com/708/668708-middle.png" height="100px" width="100px"/>`;
+        document.getElementById("day").innerHTML = "";
+        document.getElementsByClassName("hour").innerHTML = "";
+        document.getElementById("minute").innerHTML = "";
+        document.getElementById("second").innerHTML = "";
+        return;
+      }
+      var millis = 24 * 60 * 60 * 1000;
+      days = Math.floor(difference / millis);
+      difference %= millis;
+
+      millis = 60 * 60 * 1000;
+      hours = Math.floor(difference / millis);
+      difference %= millis;
+
+      millis = 60 * 1000;
+      minutes = Math.floor(difference / millis);
+      difference %= millis;
+
+      seconds = Math.floor(difference / 1000);
+
+      updateHTML();
+    }
+    function updateHTML() {
+      document.getElementById("expiremessage").innerHTML = "";
+      document.getElementById("day").innerHTML = days;
+      document.getElementById("hour").innerHTML = hours;
+      document.getElementById("minute").innerHTML = minutes;
+      document.getElementById("second").innerHTML = seconds;
+    }
+  </script>
+</html>
